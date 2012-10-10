@@ -21,7 +21,7 @@ interface TaggedCacheStorageInterface
      * 
      * @param String $key
      * 
-     * @return String
+     * @return String|false
      */
     public function get($key);
     

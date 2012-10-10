@@ -14,7 +14,6 @@ namespace TaggedCache;
 
 use \TaggedCache\TaggedCacheErrorException;
 use \TaggedCache\TaggedCacheStorageInterface;
-use \TaggedCache\TaggedCacheStorage;
 
 /**
  * Main cache class.
@@ -38,12 +37,12 @@ class TaggedCache
      * 
      * @param String $key
      * 
-     * @return mixed|null
+     * @return mixed|false
      */
     public function get($key) {
         $value = $this->storage->get($key);
-        if (!$value) {
-            return null;
+        if ($value === false) {
+            return false;
         }
         $value = unserialize($value);
         $tags = $value['tags'];
@@ -55,14 +54,18 @@ class TaggedCache
         // Key has dependencies
         foreach($tags as $tagId => $tagValue) {
             $currentTagValue = $this->storage->get($tagId);
+            if ($currentTagValue === false) {
+                return false;
+            }
+            $currentTagValue = unserialize($currentTagValue);
             if ($tagValue != $currentTagValue) {
-                return null;
+                return false;
             }
         }
-        // Check for corruption of self value and tag
+        // Check for corruption of self tag
         $currentTagValue = $this->storage->get($key . $this->tagSuffix);
-        if ($value != $currentTagValue) {
-            return null;
+        if ($currentTagValue === false) {
+            return false;
         }
         return $value;
     }
@@ -82,7 +85,7 @@ class TaggedCache
         $value = array('value'=>$value, 'tags'=>$this->dependencies);
         $valueIsSuccess = $this->storage->set($key, serialize($value), $expire);
         $tagId = $key . $this->tagSuffix;
-        $tagIsSuccess = $this->storage->set($tagId, $this->storage->getTagValue(), $expire);
+        $tagIsSuccess = $this->storage->set($tagId, serialize($this->storage->getTagValue()), $expire);
         if ($this->clearDependencies) {
             $this->dependencies = false;
         }
@@ -102,7 +105,8 @@ class TaggedCache
                 if (!is_string($tagId)) {
                     throw new TaggedCacheErrorException('Invalid dependency tag id. String expected.');
                 }
-                $depArray[$tagId] = $this->storage->get($tagId);
+                $tagId .= $this->tagSuffix;
+                $depArray[$tagId] = unserialize($this->storage->get($tagId));
             }
             $this->dependencies = $depArray;
         } else {
