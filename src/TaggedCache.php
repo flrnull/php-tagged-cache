@@ -110,3 +110,12 @@ class TaggedCache
         }
     }
 }
+
+
+/**
+ * ErrorException stub.
+ */
+class TaggedCacheErrorException extends \ErrorException
+{
+    
+}
