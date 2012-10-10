@@ -8,11 +8,11 @@ Usage example
 --------
 
 ```php
-// Include all files before, if you not use autoload
-use \TaggedCache\TaggedCacheStorageApc;
+// Include all files before, if you don't use autoload
+use \TaggedCache\TaggedCacheStorageTest;
 use \TaggedCache\TaggedCache;
 
-$storage = new TaggedCacheStorageApc;
+$storage = new TaggedCacheStorageTest;
 $cache = new TaggedCache($storage);
 
 // Some params which we want to cache
@@ -31,7 +31,7 @@ $cache->set($key2, $value2);
 echo ($cache->get($key2) === $value2) ? 'Ok' : 'Error';
 
 // Now we change first param and check again
-usleep(2000); // Default accuracy 1 millisecond
+usleep(2000); // We use accuracy 1 millisecond in TaggedCacheStorageApc
 $cache->set($key1, 9);
 echo ($cache->get($key2) === $value2) ? 'Error' : 'Ok';
 ```
