@@ -8,30 +8,30 @@ Usage example
 --------
 
 ```php
-        // Include all files before, if you not use autoload
-        use \TaggedCache\TaggedCacheStorageApc;
-        use \TaggedCache\TaggedCache;
+// Include all files before, if you not use autoload
+use \TaggedCache\TaggedCacheStorageApc;
+use \TaggedCache\TaggedCache;
 
-        $storage = new TaggedCacheStorageApc;
-        $cache = new TaggedCache($storage);
+$storage = new TaggedCacheStorageApc;
+$cache = new TaggedCache($storage);
 
-        // Some params which we want to cache
-        $key1 = 'foo';
-        $value1 = 10;
-        $key2 = 'bar';
-        $value2 = 15;
+// Some params which we want to cache
+$key1 = 'foo';
+$value1 = 10;
+$key2 = 'bar';
+$value2 = 15;
 
-        // Cache first param
-        $cache->set($key1, $value1);
-        // Cache second param  with dependency to first param
-        $cache->setDependencies(array($key1));
-        $cache->set($key2, $value2);
+// Cache first param
+$cache->set($key1, $value1);
+// Cache second param  with dependency to first param
+$cache->setDependencies(array($key1));
+$cache->set($key2, $value2);
 
-        // All should be ok now
-        echo ($cache->get($key2) === $value2) ? 'Ok' : 'Error';
+// All should be ok now
+echo ($cache->get($key2) === $value2) ? 'Ok' : 'Error';
 
-        // Now we change first param and check again
-        usleep(2000); // Default accuracy 1 millisecond
-        $cache->set($key1, 9);
-        echo ($cache->get($key2) === $value2) ? 'Error' : 'Ok';
+// Now we change first param and check again
+usleep(2000); // Default accuracy 1 millisecond
+$cache->set($key1, 9);
+echo ($cache->get($key2) === $value2) ? 'Error' : 'Ok';
 ```
