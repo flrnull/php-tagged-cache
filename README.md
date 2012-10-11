@@ -33,5 +33,5 @@ echo ($cache->get($key2) === $value2) ? 'Ok' : 'Error';
 // Now we change first param and check again
 usleep(2000); // We use accuracy 1 millisecond in TaggedCacheStorageTest
 $cache->set($key1, 9);
-echo ($cache->get($key2) === $value2) ? 'Error' : 'Ok';
+echo ($cache->get($key2) === false) ? 'Ok' : 'Error';
 ```
