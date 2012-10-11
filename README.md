@@ -12,7 +12,7 @@ Usage example
 use \TaggedCache\TaggedCacheStorageTest;
 use \TaggedCache\TaggedCache;
 
-$storage = new TaggedCacheStorageTest;
+$storage = new TaggedCacheStorageTest();
 $cache = new TaggedCache($storage);
 
 // Some params which we want to cache
