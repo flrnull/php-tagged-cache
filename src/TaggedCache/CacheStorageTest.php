@@ -1,8 +1,8 @@
 <?php
 
 /**
- * CacheStorageInterface implementation.
- * This class is using in TaggedCache class.
+ * Test CacheStorageInterface implementation.
+ * This class is using in Cache class.
  * 
  * See usage examples in README file.
  * See lincense text in LICENSE file.
@@ -15,7 +15,7 @@ namespace TaggedCache;
 /**
  * APC cache storage implementation.
  */
-class TaggedCacheStorageApc implements TaggedCacheStorageInterface
+class CacheStorageTest implements CacheStorageInterface
 {
     /**
      * Retrieves data from storage.
@@ -25,7 +25,7 @@ class TaggedCacheStorageApc implements TaggedCacheStorageInterface
      * @return String|false
      */
     public function get($key) {
-        return apc_fetch($key);
+        return $GLOBALS[$key];
     }
     
     /**
@@ -39,7 +39,7 @@ class TaggedCacheStorageApc implements TaggedCacheStorageInterface
      * @return bool 
      */
     public function set($key, $value, $expire) {
-        return apc_store($key, $value, $expire);
+        return $GLOBALS[$key] = $value;
     }
     
     /**
@@ -50,7 +50,8 @@ class TaggedCacheStorageApc implements TaggedCacheStorageInterface
      * @return bool 
      */
     public function delete($key) {
-        return apc_delete($key);
+        $GLOBALS[$key] = false;
+        return true;
     }
     
     /**

@@ -1,8 +1,7 @@
 <?php
 
 /**
- * Test CacheStorageInterface implementation.
- * This class is using in TaggedCache class.
+ * This interface is using in Cache class.
  * 
  * See usage examples in README file.
  * See lincense text in LICENSE file.
@@ -13,9 +12,9 @@
 namespace TaggedCache;
 
 /**
- * APC cache storage implementation.
+ * Cache storage interface.
  */
-class TaggedCacheStorageTest implements TaggedCacheStorageInterface
+interface CacheStorageInterface
 {
     /**
      * Retrieves data from storage.
@@ -24,9 +23,7 @@ class TaggedCacheStorageTest implements TaggedCacheStorageInterface
      * 
      * @return String|false
      */
-    public function get($key) {
-        return $GLOBALS[$key];
-    }
+    public function get($key);
     
     /**
      * Saves data into storage.
@@ -38,9 +35,7 @@ class TaggedCacheStorageTest implements TaggedCacheStorageInterface
      * 
      * @return bool 
      */
-    public function set($key, $value, $expire) {
-        return $GLOBALS[$key] = $value;
-    }
+    public function set($key, $value, $expire);
     
     /**
      * Removes data from storage.
@@ -49,10 +44,7 @@ class TaggedCacheStorageTest implements TaggedCacheStorageInterface
      * 
      * @return bool 
      */
-    public function delete($key) {
-        $GLOBALS[$key] = false;
-        return true;
-    }
+    public function delete($key);
     
     /**
      * Returns unix timestamp with needed accuracy.
@@ -61,7 +53,5 @@ class TaggedCacheStorageTest implements TaggedCacheStorageInterface
      * 
      * @return int 
      */
-    public function getTagValue() {
-        return ceil(microtime(true)*1000); 
-    }
+    public function getTagValue();
 }

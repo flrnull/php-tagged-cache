@@ -9,11 +9,11 @@ Usage example
 
 ```php
 
-use \TaggedCache\TaggedCacheStorageTest;
-use \TaggedCache\TaggedCache;
+use \TaggedCache\CacheStorageTest;
+use \TaggedCache\Cache;
 
-$storage = new TaggedCacheStorageTest();
-$cache = new TaggedCache($storage);
+$storage = new CacheStorageTest();
+$cache = new Cache($storage);
 
 $key1 = 'foo';
 $value1 = 10;
@@ -31,7 +31,7 @@ $cache->set($key2, $value2);
 echo ($cache->get($key2) === $value2) ? 'Ok' : 'Error';
 
 // Now we change first param and check again
-usleep(2000); // We use accuracy 1 millisecond in TaggedCacheStorageTest
+usleep(2000); // We use accuracy 1 millisecond in CacheStorageTest
 $cache->set($key1, 9);
 echo ($cache->get($key2) === false) ? 'Ok' : 'Error';
 ```

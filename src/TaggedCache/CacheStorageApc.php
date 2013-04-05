@@ -1,7 +1,8 @@
 <?php
 
 /**
- * This interface is using in TaggedCache class.
+ * CacheStorageInterface implementation.
+ * This class is using in Cache class.
  * 
  * See usage examples in README file.
  * See lincense text in LICENSE file.
@@ -12,9 +13,9 @@
 namespace TaggedCache;
 
 /**
- * Cache storage interface.
+ * APC cache storage implementation.
  */
-interface TaggedCacheStorageInterface
+class CacheStorageApc implements CacheStorageInterface
 {
     /**
      * Retrieves data from storage.
@@ -23,7 +24,9 @@ interface TaggedCacheStorageInterface
      * 
      * @return String|false
      */
-    public function get($key);
+    public function get($key) {
+        return apc_fetch($key);
+    }
     
     /**
      * Saves data into storage.
@@ -35,7 +38,9 @@ interface TaggedCacheStorageInterface
      * 
      * @return bool 
      */
-    public function set($key, $value, $expire);
+    public function set($key, $value, $expire) {
+        return apc_store($key, $value, $expire);
+    }
     
     /**
      * Removes data from storage.
@@ -44,7 +49,9 @@ interface TaggedCacheStorageInterface
      * 
      * @return bool 
      */
-    public function delete($key);
+    public function delete($key) {
+        return apc_delete($key);
+    }
     
     /**
      * Returns unix timestamp with needed accuracy.
@@ -53,5 +60,7 @@ interface TaggedCacheStorageInterface
      * 
      * @return int 
      */
-    public function getTagValue();
+    public function getTagValue() {
+        return ceil(microtime(true)*1000); 
+    }
 }

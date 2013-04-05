@@ -12,13 +12,13 @@
 
 namespace TaggedCache;
 
-use \TaggedCache\TaggedCacheErrorException;
-use \TaggedCache\TaggedCacheStorageInterface;
+use \TaggedCache\CacheErrorException;
+use \TaggedCache\CacheStorageInterface;
 
 /**
  * Main cache class.
  */
-class TaggedCache
+class Cache
 {
     private $storage;
     private $dependencies = false;
@@ -26,9 +26,9 @@ class TaggedCache
     private $tagSuffix = "_tag";
     
     /**
-     * @param TaggedCacheStorageInterface $storage 
+     * @param CacheStorageInterface $storage 
      */
-    public function __construct(TaggedCacheStorageInterface $storage) {
+    public function __construct(CacheStorageInterface $storage) {
         $this->storage = $storage;
     }
     
@@ -101,14 +101,14 @@ class TaggedCache
             $depArray = array();
             foreach($tags as $tagName) {
                 if (!is_string($tagName)) {
-                    throw new TaggedCacheErrorException('Invalid dependency tags name. String expected.');
+                    throw new CacheErrorException('Invalid dependency tags name. String expected.');
                 }
                 $tagName .= $this->tagSuffix;
                 $depArray[$tagName] = $this->storage->get($tagName);
             }
             $this->dependencies = $depArray;
         } else {
-            throw new TaggedCacheErrorException('Invalid dependencies tags. Array expected.');
+            throw new CacheErrorException('Invalid dependencies tags. Array expected.');
         }
     }
 }
@@ -117,7 +117,7 @@ class TaggedCache
 /**
  * ErrorException stub.
  */
-class TaggedCacheErrorException extends \ErrorException
+class CacheErrorException extends \ErrorException
 {
     
 }
