@@ -113,7 +113,8 @@ class Cache
     }
     
     /**
-     * 
+     * Removes key.
+     *
      * @param String $key
      * 
      * @return bool
