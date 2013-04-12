@@ -111,6 +111,19 @@ class Cache
             throw new CacheErrorException('Invalid dependencies tags. Array expected.');
         }
     }
+    
+    /**
+     * 
+     * @param String $key
+     * 
+     * @return bool
+     */
+    public function delete($key) {
+        $valueIsSuccess = $this->storage->delete($key);
+        $tagName = $key . $this->tagSuffix;
+        $tagIsSuccess = $this->storage->delete($tagName);
+        return ($valueIsSuccess && $tagIsSuccess) ? true : false;
+    }
 }
 
 
