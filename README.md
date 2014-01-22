@@ -28,10 +28,10 @@ $cache->setDependencies(array($key1));
 $cache->set($key2, $value2);
 
 // All should be ok now
-echo ($cache->get($key2) === $value2) ? 'Ok' : 'Error';
+assert($cache->get($key2) === $value2);
 
 // Now we change first param and check again
 usleep(2000); // We use accuracy 1 millisecond in CacheStorageTest
 $cache->set($key1, 9);
-echo ($cache->get($key2) === false) ? 'Ok' : 'Error';
+assert($cache->get($key2) === false);
 ```
